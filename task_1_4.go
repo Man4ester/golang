@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 )
 
@@ -20,9 +21,13 @@ func main() {
 		"[XRE]",
 		"EnableProfileMigrator=0", "EnableExtensionManager=1",
 	}
-	fmt.Println(ParseIni(iniData))
+	m := ParseIni(iniData)
+	fmt.Println(m)
+	fmt.Println("......")
+	PrintIni(m)
 }
 
+//ParseIni
 func ParseIni(iniData []string) map[string] map[string]string{
 	result :=make(map[string] map[string]string)
 	tmp :=make(map[string]string)
@@ -42,4 +47,20 @@ func ParseIni(iniData []string) map[string] map[string]string{
 		}
 	}
 	return  result
+}
+
+//PrintIni function
+func PrintIni(iniData map[string] map[string]string){
+	for key, el :=range iniData{
+		fmt.Printf("%s\n",key)
+		names := make([]string, 0)
+		for chKey, _ := range el{
+			names = append(names, chKey)
+			
+		}
+		sort.StringsAreSorted(names)
+		for _, it := range names{
+			fmt.Printf("%s=%s\n", it, el[it])
+		}
+	}
 }
